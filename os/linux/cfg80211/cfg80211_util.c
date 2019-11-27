@@ -264,12 +264,14 @@ BOOLEAN CFG80211_SupBandInit(
 {
 	CFG80211_CB *pCfg80211_CB = (CFG80211_CB *)pCB;
 	struct wiphy *pWiphy = (struct wiphy *)pWiphyOrg;
-	struct ieee80211_channel *pChannels = (struct ieee80211_channel *)pChannelsOrg;
-	struct ieee80211_rate *pRates = (struct ieee80211_rate *)pRatesOrg;
+	struct ieee80211_channel *pChannels = NULL;
+	struct ieee80211_rate *pRates = NULL;
 	struct ieee80211_supported_band *pBand;
 	UINT32 NumOfChan, NumOfRate;
 	UINT32 IdLoop;
 	UINT32 CurTxPower;
+	if (pChannelsOrg != NULL) pChannels=(struct ieee80211_channel *)pChannelsOrg;
+	if (pRatesOrg != NULL) pRates=(struct ieee80211_rate *)pRatesOrg;
 
 	/* sanity check */
 	if (pDriverBandInfo->RFICType == 0)
