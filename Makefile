@@ -54,9 +54,9 @@ RTMP_SRC_DIR = $(RT28xx_DIR)/RT$(MODULE)
 #PLATFORM = MSTAR
 #PLATFORM = HISILICON
 #PLATFORM = HE_TV
-LINUX_SRC ?= /mnt/nfsroot/rongjun.chen/Alip200/out/target/product/p200/obj/KERNEL_OBJ/
-CROSS_COMPILE ?=aarch64-linux-gnu-
-ARCH ?=arm64
+LINUX_SRC ?= /home/zy/桌面/kheader/usr/src/linux-headers-4.9.197-0409197-generic/
+CROSS_COMPILE ?=
+ARCH ?= x86_64
 #APSOC
 ifeq ($(MODULE),3050)
 PLATFORM = RALINK_3050
@@ -105,9 +105,9 @@ LINUX_SRC = /lib/modules/$(shell uname -r)/build
 LINUX_SRC_MODULE = /lib/modules/$(shell uname -r)/kernel/drivers/net/wireless/
 endif
 
-#ifeq ($(PLATFORM),MSTAR)
+ifeq ($(PLATFORM),MSTAR)
 PREALLOC = YES
-#endif
+endif
 
 ifeq ($(PLATFORM),HISILICON)
 PREALLOC = YES
