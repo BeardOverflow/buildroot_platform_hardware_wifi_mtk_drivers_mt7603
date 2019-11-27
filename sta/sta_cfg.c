@@ -1283,8 +1283,7 @@ INT Set_EncrypType_Proc(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 	    pAd->StaCfg.GroupCipher   = Ndis802_11EncryptionSMS4Enabled;
     }
 #endif /* WAPI_SUPPORT */
-    else
-        return FALSE;
+    else return FALSE;
 
 	if (pAd->StaCfg.BssType == BSS_ADHOC)
 	{
@@ -1431,8 +1430,7 @@ INT Set_Key1_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
     int                                 i;
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
-    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
 	KeyLen = (UCHAR)strlen(arg);
 
@@ -1511,8 +1509,7 @@ INT Set_Key2_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
     int                                 i;
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
-    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
 	KeyLen = (UCHAR)strlen(arg);
 
@@ -1589,8 +1586,7 @@ INT Set_Key3_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
     int                                 i;
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
-    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
 	KeyLen = (UCHAR)strlen(arg);
 
@@ -1667,8 +1663,7 @@ INT Set_Key4_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
     int                                 i;
     UCHAR                               CipherAlg=CIPHER_WEP64;
 
-    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA)
-        return TRUE;    /* do nothing */
+    if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
 	KeyLen = (UCHAR)strlen(arg);
 
@@ -10355,8 +10350,7 @@ RtmpIoctl_rt_ioctl_siwfreq(
 		pAd->StaCfg.ConnectinfoChannel = pAd->CommonCfg.Channel;
 	DBGPRINT(RT_DEBUG_ERROR, ("==>rt_ioctl_siwfreq::SIOCSIWFREQ(Channel=%d)\n", pAd->CommonCfg.Channel));
     }
-    else
-        return NDIS_STATUS_FAILURE;
+    else return NDIS_STATUS_FAILURE;
 
 	return NDIS_STATUS_SUCCESS;
 }
@@ -12283,8 +12277,7 @@ RtmpIoctl_rt_ioctl_giwrate(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
     if (rate_index < 0)
         rate_index = 0;
 
-    if (rate_index >= rate_count)
-        rate_index = rate_count-1;
+    if (rate_index >= rate_count) rate_index = rate_count-1;
 
 	*(ULONG *)pData = ralinkrate[rate_index] * 500000;
 

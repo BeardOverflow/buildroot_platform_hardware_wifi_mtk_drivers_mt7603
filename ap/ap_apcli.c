@@ -948,8 +948,7 @@ VOID ApCliLinkDown(RTMP_ADAPTER *pAd, UCHAR ifIndex)
 #ifdef MAC_REPEATER_SUPPORT
 		&& (CliIdx == 0xFF)
 #endif /* MAC_REPEATER_SUPPORT */
-		)
-		return;
+		) return;
 		Reason = pApCliEntry->LastDeauthReason;
 
 #ifdef MAC_REPEATER_SUPPORT

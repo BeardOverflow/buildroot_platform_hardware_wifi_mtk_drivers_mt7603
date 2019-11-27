@@ -683,8 +683,7 @@ VOID Adhoc_PeerPairMsg1Action(
 
     pSupplicant = &pEntry->WPA_Supplicant;
     
-    if (Elem->MsgLen < (LENGTH_802_11 + LENGTH_802_1_H + LENGTH_EAPOL_H + MIN_LEN_OF_EAPOL_KEY_MSG))
-        return;
+    if (Elem->MsgLen < (LENGTH_802_11 + LENGTH_802_1_H + LENGTH_EAPOL_H + MIN_LEN_OF_EAPOL_KEY_MSG)) return;
 	
 	pCurrentAddr = pAd->CurrentAddress;
 	pmk_ptr = pAd->StaCfg.PMK;
@@ -808,8 +807,7 @@ VOID Adhoc_PeerPairMsg2Action(
         return;
 
     /* check Entry in valid State */
-    if (pAuthenticator->WpaState < AS_PTKSTART)
-        return;
+    if (pAuthenticator->WpaState < AS_PTKSTART) return;
 
 	pBssid = pAd->CommonCfg.Bssid;
 
