@@ -3080,10 +3080,10 @@ RTMP_STRING *GetEncryptType(CHAR enc)
     	return "TKIP";
     if(enc == Ndis802_11AESEnable)
     	return "AES";
-	if(enc == Ndis802_11TKIPAESMix)
+    if(enc == Ndis802_11TKIPAESMix)
     	return "TKIPAES";
 #ifdef WAPI_SUPPORT
-	if(enc == Ndis802_11EncryptionSMS4Enabled)
+    if(enc == Ndis802_11EncryptionSMS4Enabled)
     	return "SMS4";
 #endif /* WAPI_SUPPORT */
     else
@@ -3096,7 +3096,7 @@ RTMP_STRING *GetAuthMode(CHAR auth)
     	return "OPEN";
     if(auth == Ndis802_11AuthModeShared)
     	return "SHARED";
-	if(auth == Ndis802_11AuthModeAutoSwitch)
+    if(auth == Ndis802_11AuthModeAutoSwitch)
     	return "AUTOWEP";
     if(auth == Ndis802_11AuthModeWPA)
     	return "WPA";
@@ -3108,14 +3108,14 @@ RTMP_STRING *GetAuthMode(CHAR auth)
     	return "WPA2";
     if(auth == Ndis802_11AuthModeWPA2PSK)
     	return "WPA2PSK";
-	if(auth == Ndis802_11AuthModeWPA1WPA2)
+    if(auth == Ndis802_11AuthModeWPA1WPA2)
     	return "WPA1WPA2";
-	if(auth == Ndis802_11AuthModeWPA1PSKWPA2PSK)
+    if(auth == Ndis802_11AuthModeWPA1PSKWPA2PSK)
     	return "WPA1PSKWPA2PSK";
 #ifdef WAPI_SUPPORT
-	if(auth == Ndis802_11AuthModeWAICERT)
+    if(auth == Ndis802_11AuthModeWAICERT)
     	return "WAI-CERT";
-	if(auth == Ndis802_11AuthModeWAIPSK)
+    if(auth == Ndis802_11AuthModeWAIPSK)
     	return "WAI-PSK";
 #endif /* WAPI_SUPPORT */
 	

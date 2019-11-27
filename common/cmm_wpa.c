@@ -2347,8 +2347,7 @@ VOID WPAStart2WayGroupHS(
 
 	DBGPRINT(RT_DEBUG_TRACE, ("===> WPAStart2WayGroupHS\n"));
 
-    if ((!pEntry) || !IS_ENTRY_CLIENT(pEntry))
-        return;
+    if ((!pEntry) || !IS_ENTRY_CLIENT(pEntry)) return;
 
 	/* delete retry timer*/
 	RTMPCancelTimer(&pEntry->RetryTimer, &Cancelled);

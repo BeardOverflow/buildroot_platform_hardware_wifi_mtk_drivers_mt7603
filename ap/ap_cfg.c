@@ -1803,8 +1803,7 @@ INT RTMPAPSetInformation(
 			ifIndex = pObj->ioctl_if;
 			apcliEn = pAd->ApCfg.ApCliTab[ifIndex].Enable;
 
-			if (!apcliEn)
-				return FALSE;
+			if (!apcliEn) return FALSE;
 
 				os_alloc_mem(NULL, (UCHAR **)&pRemoveKey, wrq->u.data.length);
 	            if(pRemoveKey == NULL)
