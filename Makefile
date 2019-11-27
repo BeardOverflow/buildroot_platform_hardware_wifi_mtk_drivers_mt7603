@@ -144,11 +144,11 @@ export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUD
 # The targets that may be used.
 PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl sdk_build_tools
 
-ifeq ($(TARGET),LINUX)
-all: build_tools $(TARGET) plug_in
-else
+#ifeq ($(TARGET),LINUX)
+#all: build_tools $(TARGET) plug_in
+#else
 all: $(TARGET)
-endif 
+#endif 
 
 build_tools:
 	$(MAKE) -C $(RT28xx_DIR)/tools
