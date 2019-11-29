@@ -165,6 +165,7 @@ static void legacy_timer_emu_func(struct timer_list *t)
 	struct legacy_timer_emu *lt = from_timer(lt, t, t);
 	lt->function(lt->data);
 }
+#endif
 static inline VOID __RTMP_OS_Init_Timer(
 	IN VOID *pReserved,
 	IN OS_NDIS_MINIPORT_TIMER * pTimer,
