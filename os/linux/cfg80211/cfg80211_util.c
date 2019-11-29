@@ -847,7 +847,11 @@ VOID CFG80211OS_Scaning(
 	UINT32 IdChan;
 	UINT32 CenFreq;
 	UINT CurBand;
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0))
         struct timespec ts;
+#else
+        struct timespec64 ts;
+#endif
         UINT64 bootTime = 0;
 	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 	struct cfg80211_bss *bss = NULL;
@@ -894,7 +898,11 @@ VOID CFG80211OS_Scaning(
 		RSSI = RSSI * 100;  
 	}
 
-	get_monotonic_boottime(&ts);
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0))
+       get_monotonic_boottime(&ts);
+#else
+       ktime_get_boottime_ts64(&ts);
+#endif
 	bootTime = ts.tv_sec;
 	bootTime *= USEC_PER_SEC;
 	bootTime += ts.tv_nsec/NSEC_PER_USEC;
