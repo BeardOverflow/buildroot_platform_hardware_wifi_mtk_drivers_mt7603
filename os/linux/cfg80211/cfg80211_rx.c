@@ -72,9 +72,15 @@ BOOLEAN CFG80211_CheckActionFrameType(
 			DBGPRINT(RT_DEBUG_INFO, ("CFG80211_PKT: %s ProbeRsp Frame %d\n", preStr, pAd->LatchRfRegs.Channel));
 	        if (!mgmt->u.probe_resp.timestamp)
     		{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+            		struct timespec64 tv;
+            		ktime_get_real_ts64(&tv);
+            		mgmt->u.probe_resp.timestamp = ((UINT64) tv.tv_sec * 1000000) + (tv.tv_nsec)/1000;
+#else
             		struct timeval tv;
             		do_gettimeofday(&tv);
             		mgmt->u.probe_resp.timestamp = ((UINT64) tv.tv_sec * 1000000) + tv.tv_usec;
+#endif
     		}
 		}
 		else if (ieee80211_is_disassoc(mgmt->frame_control))

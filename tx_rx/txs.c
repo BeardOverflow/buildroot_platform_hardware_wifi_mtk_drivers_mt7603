@@ -224,7 +224,11 @@ INT32 RTMPWaitNullFrameTxDone(RTMP_ADAPTER *pAd)
 	ULONG ulWaitRes;
 
 	/// time struct   
-	struct timeval start, end; 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+	struct timespec64 start, end; 
+#else
+	struct timeval start, end;
+#endif 
 
 	ulBeforeSendMgmtFr = 0;
 	ulAfterSendMgmtFr = 0;
@@ -232,19 +236,27 @@ INT32 RTMPWaitNullFrameTxDone(RTMP_ADAPTER *pAd)
 
 	//for time measurement
 //	RTMP_GetCurrentSystemTick(&ulBeforeSendMgmtFr);
-	do_gettimeofday(&start); 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+	ktime_get_real_ts64(&start);
+#else
+	do_gettimeofday(&start);
+#endif
 
 	ulWaitRes = RTMP_OS_WAIT_FOR_COMPLETION_TIMEOUT(&pCfg80211_ctrl->fw_event_done, RTMPMsecsToJiffies(WAIT_TXS_TIME));
 
 	//for time measurement
 //	RTMP_GetCurrentSystemTick(&ulAfterSendMgmtFr);
-	do_gettimeofday(&end); 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+	ktime_get_real_ts64(&end);
+#else
+	do_gettimeofday(&end);
+#endif
 	
 	pCfg80211_ctrl->TxStatusInUsed = FALSE;
 
 	uldiff = (ulAfterSendMgmtFr-ulBeforeSendMgmtFr);
 
-	DBGPRINT(RT_DEBUG_TRACE,("%s:TxSAcked(%d), diff_usec(%lu usec)\n", __func__, pCfg80211_ctrl->TxSAcked,(end.tv_usec-start.tv_usec)));
+//	DBGPRINT(RT_DEBUG_TRACE,("%s:TxSAcked(%d), diff_usec(%lu usec)\n", __func__, pCfg80211_ctrl->TxSAcked,(end.tv_usec-start.tv_usec)));
 
 	if (!ulWaitRes) 
 	{
