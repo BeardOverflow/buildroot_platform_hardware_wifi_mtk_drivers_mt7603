@@ -483,7 +483,13 @@ Note:
 	For iw utility: set type, set monitor
 ========================================================================
 */
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+static int CFG80211_OpsVirtualInfChg(
+	IN struct wiphy					*pWiphy,
+	IN struct net_device			*pNetDevIn,
+	IN enum nl80211_iftype			Type,
+	struct vif_params				*pParams)
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32))
 static int CFG80211_OpsVirtualInfChg(
 	IN struct wiphy					*pWiphy,
 	IN struct net_device			*pNetDevIn,
@@ -504,6 +510,10 @@ static int CFG80211_OpsVirtualInfChg(
 	struct net_device *pNetDev;
 	CMD_RTPRIV_IOCTL_80211_VIF_PARM VifInfo;
 	UINT oldType = pNetDevIn->ieee80211_ptr->iftype;
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+	u32 *pFlags;
+#endif
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s (%s) IfTypeChange %d ==> %d\n",
 			__FUNCTION__, pNetDevIn->name, oldType, Type));
@@ -542,8 +552,12 @@ static int CFG80211_OpsVirtualInfChg(
 	VifInfo.newIfType = (UINT8)Type;
 	VifInfo.oldIfType = (UINT8)oldType;
 	
-	if (pFlags != NULL)
-	{
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+	if (pParams != NULL) {
+		pFlags = & (pParams->flags);
+#else
+	if (pFlags != NULL) {
+#endif
 		VifInfo.MonFilterFlag = 0;
 
 		if (((*pFlags) & NL80211_MNTR_FLAG_FCSFAIL) == NL80211_MNTR_FLAG_FCSFAIL)
@@ -3001,7 +3015,9 @@ static struct wireless_dev* CFG80211_OpsVirtualInfAdd(
 							IN unsigned char name_assign_type,
 #endif
         IN enum nl80211_iftype                 			 Type,
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,12,0))
         IN u32                                          *pFlags,
+#endif
         struct vif_params                               *pParams)
 #else
 static struct net_device* CFG80211_OpsVirtualInfAdd(

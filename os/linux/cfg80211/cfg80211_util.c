@@ -1187,6 +1187,26 @@ VOID CFG80211OS_Roamed(
 	IN UCHAR *pReqIe, IN UINT32 ReqIeLen,
 	IN UCHAR *pRspIe, IN UINT32 RspIeLen)
 {
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+	struct cfg80211_roam_info roam_info = {};
+#endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
+
+		roam_info.channel = NULL;/* CFG TODO: ieee80211_channel */
+		roam_info.bssid = pBSSID;
+		roam_info.req_ie =
+			pReqIe;
+		roam_info.req_ie_len =
+			ReqIeLen;
+		roam_info.resp_ie =
+			pRspIe;
+		roam_info.resp_ie_len =		
+			RspIeLen;
+
+	cfg80211_roamed(pNetDev,
+		&roam_info, 
+		GFP_KERNEL);
+#else
 	cfg80211_roamed(pNetDev,
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 39))
 		NULL, /* CFG TODO: ieee80211_channel */
@@ -1195,6 +1215,7 @@ VOID CFG80211OS_Roamed(
 		pReqIe, ReqIeLen,
 		pRspIe, RspIeLen, 
 		GFP_KERNEL);
+#endif
 }
 
 VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const PUCHAR pFrame, INT frameLen, INT freq)
