@@ -23,6 +23,8 @@ modules.builtin
 *.gcno
 *.bak
 *.ko.cmd
+*.mod
+*.mod.cmd
 .tmp_versions/
 Module.symvers
 tools/bin2h
