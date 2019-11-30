@@ -275,7 +275,7 @@ BOOLEAN CFG80211_SupBandInit(
 
 	/* sanity check */
 	if (pDriverBandInfo->RFICType == 0)
-		pDriverBandInfo->RFICType = RFIC_24GHZ | RFIC_5GHZ;
+		pDriverBandInfo->RFICType = RFIC_24GHZ;
 		
 	
 	/* 1. Calcute the Channel Number */
