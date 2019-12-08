@@ -714,12 +714,15 @@ INT32 SetATELoadE2p(RTMP_ADAPTER *pAd, RTMP_STRING *Arg)
 	RTMP_OS_FD Srcf;
 	INT32 Retval;
 	UINT32 u4MaxBufSize = EEPROM_SIZE >> 1;
-	USHORT WriteEEPROM[u4MaxBufSize];
+	USHORT *WriteEEPROM = NULL;
 
 	//USHORT WriteEEPROM[(EEPROM_SIZE >> 1)];
 	INT32 FileLength = 0;
 	UINT32 Value = (UINT32)simple_strtol(Arg, 0, 10);
 	RTMP_OS_FS_INFO	OsFSInfo;
+	WriteEEPROM = vmalloc(u4MaxBufSize);
+	if (!WriteEEPROM)
+		return FALSE;
 
 	DBGPRINT(RT_DEBUG_OFF, ("===> %s (value=%d)\n\n", __FUNCTION__, Value));
 
@@ -798,7 +801,7 @@ INT32 SetATELoadE2p(RTMP_ADAPTER *pAd, RTMP_STRING *Arg)
 	}
 
     DBGPRINT(RT_DEBUG_OFF, ("<=== %s (Ret=%d)\n", __FUNCTION__, Ret));
-
+    vfree(WriteEEPROM);
     return Ret;
 }
 
