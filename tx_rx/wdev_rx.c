@@ -1514,6 +1514,7 @@ VOID dev_rx_ctrl_frm(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk)
 								*ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5), *(ptr+6), *(ptr+7)));
 				}
 			}
+			__attribute__((__fallthrough__));/* FALL THRU */
 //---Add by shiang for debug
 #endif /* DOT11_N_SUPPORT */
 		case SUBTYPE_ACK:

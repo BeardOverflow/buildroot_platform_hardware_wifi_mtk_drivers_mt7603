@@ -5504,8 +5504,10 @@ INT AsicSetRxStream(RTMP_ADAPTER *pAd, UINT32 StreamNums)
 	switch (StreamNums) {
 		case 3:
 			Mask |= RMAC_RMCR_RX_STREAM_2;
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case 2:
 			Mask |= RMAC_RMCR_RX_STREAM_1;
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case 1:
 			Mask |= RMAC_RMCR_RX_STREAM_0;
 			break;
