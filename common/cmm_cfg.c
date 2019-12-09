@@ -680,6 +680,7 @@ INT	RT_CfgSetFixedTxPhyMode(RTMP_STRING *arg)
 			case FIXED_TXMODE_HT:
 			case FIXED_TXMODE_VHT:
 				fix_tx_mode = value;
+				__attribute__((__fallthrough__));/* FALL THRU */
 			default:
 				fix_tx_mode = FIXED_TXMODE_HT;
 		}

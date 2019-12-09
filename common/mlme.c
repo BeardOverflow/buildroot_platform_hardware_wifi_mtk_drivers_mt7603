@@ -8306,8 +8306,10 @@ BOOLEAN RTMPCheckHt(
 	{
 		case 3:
 			pAd->MlmeAux.HtCapability.MCSSet[2] = 0xff;
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case 2:
 			pAd->MlmeAux.HtCapability.MCSSet[1] = 0xff;
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case 1:
 		default:
 			pAd->MlmeAux.HtCapability.MCSSet[0] = 0xff;

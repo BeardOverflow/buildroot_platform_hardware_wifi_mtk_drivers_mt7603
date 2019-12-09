@@ -305,8 +305,10 @@ VOID RTMPSetHT(
 	{
 		case 3:
 			ht_cap->MCSSet[2] =  0xff;
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case 2:
 			ht_cap->MCSSet[1] =  0xff;
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case 1:
 		default:
 			ht_cap->MCSSet[0] =  0xff;
