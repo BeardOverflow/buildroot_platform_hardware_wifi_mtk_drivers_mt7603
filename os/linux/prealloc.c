@@ -55,7 +55,7 @@ int __init prealloc_init(void)
 {
 	int result = 0, tx = 0, rx = 0, k = 0;
 	
-	memset(PreAllocBuffer,0, NUM_OF_TOTAL_BLK);
+	memset(PreAllocBuffer,0, NUM_OF_TOTAL_BLK * sizeof(PreAllocBuffer[0]));
 	printk("HTTX_BUFFER [%zu]\n",sizeof(HTTX_BUFFER));
 	printk("TX_BUFFER [%zu]\n",sizeof(TX_BUFFER));
 	printk("MAX_RXBULK_SIZE [%u]\n",MAX_RXBULK_SIZE);
@@ -237,6 +237,6 @@ void *RTMPQMemAddr(int size, dma_addr_t *pDmaAddr, int type)
 
 EXPORT_SYMBOL(RTMPQMemAddr);
 
-module_init(prealloc_init);
-module_exit(prealloc_cleanup);
+//module_init(prealloc_init);
+//module_exit(prealloc_cleanup);
 

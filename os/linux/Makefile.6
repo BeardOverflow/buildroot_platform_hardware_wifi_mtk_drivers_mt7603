@@ -2,6 +2,9 @@ include $(RT28xx_DIR)/os/linux/config.mk
 
 obj_ap :=
 obj_sta :=
+ifeq ($(PREALLOC),YES)
+obj_sta += ../../os/linux/prealloc.o
+endif
 obj_p2p :=
 obj_wsc :=
 obj_vht :=
