@@ -19,6 +19,10 @@
 #include "rt_os_util.h"
 #include "rt_os_net.h"
 
+#ifdef PREALLOC
+extern int __init prealloc_init(void);
+extern void prealloc_cleanup(void);
+#endif
 
 extern USB_DEVICE_ID rtusb_dev_id[];
 extern INT const rtusb_usb_id_len;
@@ -905,6 +909,9 @@ struct usb_driver rtusb_driver = {
 
 INT __init rtusb_init(void)
 {
+#ifdef PREALLOC
+	prealloc_init();
+#endif
 	DBGPRINT(RT_DEBUG_OFF, ("rtusb init %s --->\n", RTMP_DRV_NAME));
 	/*add for initial hook callback function linking list*/
 	RTMP_OS_TXRXHOOK_INIT();
@@ -916,6 +923,9 @@ VOID __exit rtusb_exit(void)
 {
 	usb_deregister(&rtusb_driver);	
 	DBGPRINT(RT_DEBUG_OFF, ("<--- rtusb exit\n"));
+#ifdef PREALLOC
+	prealloc_cleanup();
+#endif
 }
 
 #ifndef MULTI_INF_SUPPORT

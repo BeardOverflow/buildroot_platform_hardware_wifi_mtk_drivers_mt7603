@@ -37,7 +37,7 @@ MODULE = $(word 1, $(CHIPSET))
 OSABL = NO
 
 #Build Prealloc ko
-PREALLOC = NO
+PREALLOC = YES
 
 #ifneq ($(TARGET),THREADX)
 #RT28xx_DIR = home directory of RT28xx source code
@@ -231,11 +231,6 @@ else #2.4
 ifeq ($(OSABL),YES)
 	cp -f os/linux/Makefile.6.util $(RT28xx_DIR)/os/linux/Makefile
 	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-endif
-ifeq ($(PREALLOC), YES)
-#build prealloc.ko
-	cp -f $(RT28xx_DIR)/os/linux/Makefile.6.prealloc $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
 endif
 	cp -f $(RT28xx_DIR)/os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
 ifeq ($(PLATFORM),DM6446)

@@ -540,7 +540,7 @@ WFLAGS += -DMSTAR_SUPPORT
 endif
 
 ifeq ($(PREALLOC),YES)
-# need mtprealloc.ko
+WFLAGS += -DPREALLOC
 ifeq ($(HAS_OLD_PRE_ALLOC),y)
 # use old prealloc: use one big for each queue
 HAS_USB_BULK_BUF_ALIGMENT=n
