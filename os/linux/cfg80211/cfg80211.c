@@ -3584,9 +3584,13 @@ static struct wireless_dev *CFG80211_WdevAlloc(
 	pWdev->wiphy->n_iface_combinations = ARRAY_SIZE(ra_iface_combinations_ap_sta);
 #endif /* LINUX_VERSION_CODE: 3.8.0 */
 
+	wiphy_warn(pWdev->wiphy, "wiphy registered - NOW crash the kernel\n");
+	msleep(1000);
+
 	if (wiphy_register(pWdev->wiphy) < 0)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Register wiphy device fail!\n"));
+		panic(0);
 		goto LabelErrReg;
 	} 
 		
