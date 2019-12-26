@@ -328,6 +328,7 @@ int main(int argc ,char *argv[])
 					|| (strncmp(chipset, "mt7603u", 7) == 0)) {
 			strcat(infname, "/mcu/bin/WIFI_RAM_CODE_MT7603_e1.bin");
 			strcat(infname1, "/mcu/bin/WIFI_RAM_CODE_MT7603_e2.bin");
+//			strcat(infname1, "/mcu/bin/mt7603_e2_20160107100755.bin");
 			strncat(outfname, "/include/mcu/mt7603_firmware.h"
 					, MAX_NAME_BUFFER_LENGTH - strlen(outfname) - 1);
 			strcat(outfname1, "/include/mcu/mt7603_e2_firmware.h");
