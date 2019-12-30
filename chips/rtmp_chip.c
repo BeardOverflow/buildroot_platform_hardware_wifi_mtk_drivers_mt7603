@@ -650,6 +650,8 @@ INT WaitForAsicReady(RTMP_ADAPTER *pAd)
 #endif
 
 	// TODO: shiang-7603
+	//This waiting for Asic ready
+	RtmpOsMsDelay(1000);
 	return TRUE;
 	if (pAd->chipCap.hif_type == HIF_MT) {
 		DBGPRINT(RT_DEBUG_OFF, ("%s(%d): Not support for HIF_MT yet!\n",
