@@ -253,6 +253,15 @@ extern	const struct iw_handler_def rt28xx_ap_iw_handler_def;
 /***********************************************************************************
  *	Compiler related definitions
  ***********************************************************************************/
+
+/* In Linux 5.4 asm_inline was introduced.
+ * Redefine it to just asm to enable successful compilation.
+ */
+#ifdef asm_inline
+#undef asm_inline
+#define asm_inline asm
+#endif
+
 #undef __inline
 #define __inline		static inline
 #define IN
