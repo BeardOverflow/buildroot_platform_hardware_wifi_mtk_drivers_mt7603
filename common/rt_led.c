@@ -867,6 +867,7 @@ VOID RTMPSetLEDStatus(RTMP_ADAPTER *pAd, UCHAR Status)
 			break;
 		case LED_HALT: 
 			LedMode = 0; /* Driver sets MAC register and MAC controls LED */
+			__attribute__((__fallthrough__));/* FALL THRU */
 		case LED_RADIO_OFF:
 			LinkStatus = LINK_STATUS_RADIO_OFF;
 			MCUCmd = MCU_SET_LED_MODE;
