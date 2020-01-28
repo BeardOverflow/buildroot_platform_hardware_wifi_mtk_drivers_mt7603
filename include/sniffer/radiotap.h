@@ -186,6 +186,7 @@ struct ieee80211_radiotap_header {
  *
  *	Contains VHT information about this frame.
  */
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,0,0))
 enum ieee80211_radiotap_type {
 	IEEE80211_RADIOTAP_TSFT = 0,
 	IEEE80211_RADIOTAP_FLAGS = 1,
@@ -215,6 +216,7 @@ enum ieee80211_radiotap_type {
 	IEEE80211_RADIOTAP_VENDOR_NAMESPACE = 30,
 	IEEE80211_RADIOTAP_EXT = 31
 };
+#endif
 
 /* Channel flags. */
 #define	IEEE80211_CHAN_TURBO	0x0010	/* Turbo channel */
