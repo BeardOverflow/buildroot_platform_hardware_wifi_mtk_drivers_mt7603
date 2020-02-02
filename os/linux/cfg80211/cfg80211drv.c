@@ -2159,8 +2159,10 @@ BOOLEAN CFG80211_checkScanTable(
 	struct ieee80211_channel *chan;
 	UINT32 CenFreq;
 	UINT64 timestamp;
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
-	struct timespec64 tv;
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 39) && LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0))
+	struct timespec ts;
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+//	null
 #else
 	struct timeval tv;
 #endif
@@ -2181,9 +2183,11 @@ BOOLEAN CFG80211_checkScanTable(
         }
 
 	/* Fake TSF */
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
-	ktime_get_real_ts64(&tv);
-	timestamp = ((UINT64)tv.tv_sec * 1000000) + (tv.tv_nsec)/1000;
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 39) && LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0))
+	get_monotonic_boottime(&ts);
+	timestamp = ((UINT64)ts.tv_sec * 1000000) + ts.tv_nsec / 1000;
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+	timestamp = ktime_to_us(ktime_get_boottime());
 #else
 	do_gettimeofday(&tv);
 	timestamp = ((UINT64)tv.tv_sec * 1000000) + tv.tv_usec;
