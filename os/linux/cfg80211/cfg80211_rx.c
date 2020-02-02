@@ -72,10 +72,12 @@ BOOLEAN CFG80211_CheckActionFrameType(
 			DBGPRINT(RT_DEBUG_INFO, ("CFG80211_PKT: %s ProbeRsp Frame %d\n", preStr, pAd->LatchRfRegs.Channel));
 	        if (!mgmt->u.probe_resp.timestamp)
     		{
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
-            		struct timespec64 tv;
-            		ktime_get_real_ts64(&tv);
-            		mgmt->u.probe_resp.timestamp = ((UINT64) tv.tv_sec * 1000000) + (tv.tv_nsec)/1000;
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 39) && LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0))
+			struct timespec ts;
+			get_monotonic_boottime(&ts);
+			mgmt->u.probe_resp.timestamp = ((UINT64) ts.tv_sec * 1000000) + ts.tv_nsec / 1000;
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,20,0))
+			mgmt->u.probe_resp.timestamp = ktime_to_us(ktime_get_boottime());
 #else
             		struct timeval tv;
             		do_gettimeofday(&tv);
