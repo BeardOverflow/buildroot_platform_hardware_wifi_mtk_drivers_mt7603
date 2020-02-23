@@ -1148,6 +1148,10 @@ VOID CFG80211OS_NewSta(IN PNET_DEV pNetDev, IN const PUCHAR mac_addr, IN const P
 #endif
 	NdisZeroMemory(&sinfo, sizeof(sinfo));
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 18, 0))
+	sinfo.filled = 0;
+	sinfo.pertid = 0;
+#endif
 
 /* If get error here, be sure patch the cfg80211_new_sta.patch into kernel. */
 #if 1
