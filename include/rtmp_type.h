@@ -79,9 +79,9 @@ typedef unsigned char UINT8;
 typedef unsigned short UINT16;
 typedef unsigned int UINT32;
 typedef unsigned long long UINT64;
-typedef short INT16;
-typedef int INT32;
-typedef long long INT64;
+typedef signed short INT16;
+typedef signed int INT32;
+typedef signed long long INT64;
 
 typedef unsigned char UCHAR;
 typedef unsigned short USHORT;
@@ -93,8 +93,8 @@ typedef unsigned char *PUINT8;
 typedef unsigned short *PUINT16;
 typedef unsigned int *PUINT32;
 typedef unsigned long long *PUINT64;
-typedef int *PINT32;
-typedef long long *PINT64;
+typedef signed int *PINT32;
+typedef signed long long *PINT64;
 
 /* modified for fixing compile warning on Sigma 8634 platform */
 //typedef char STRING;
