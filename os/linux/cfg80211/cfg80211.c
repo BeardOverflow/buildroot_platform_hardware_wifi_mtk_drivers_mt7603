@@ -512,7 +512,7 @@ static int CFG80211_OpsVirtualInfChg(
 	UINT oldType = pNetDevIn->ieee80211_ptr->iftype;
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
-	u32 *pFlags;
+	u32 *pFlags = &(pParams->flags);
 #endif
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s (%s) IfTypeChange %d ==> %d\n",
@@ -552,12 +552,7 @@ static int CFG80211_OpsVirtualInfChg(
 	VifInfo.newIfType = (UINT8)Type;
 	VifInfo.oldIfType = (UINT8)oldType;
 	
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,12,0))
-	if (pParams != NULL) {
-		pFlags = & (pParams->flags);
-#else
 	if (pFlags != NULL) {
-#endif
 		VifInfo.MonFilterFlag = 0;
 
 		if (((*pFlags) & NL80211_MNTR_FLAG_FCSFAIL) == NL80211_MNTR_FLAG_FCSFAIL)
