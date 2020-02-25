@@ -159,28 +159,20 @@ static inline VOID __RTMP_SetPeriodicTimer(
 }
 
 /* convert NdisMInitializeTimer --> RTMP_OS_Init_Timer */
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
-static void legacy_timer_emu_func(struct timer_list *t)
-{
-	struct legacy_timer_emu *lt = from_timer(lt, t, t);
-	lt->function(lt->data);
-}
-#endif
 static inline VOID __RTMP_OS_Init_Timer(
 	IN VOID *pReserved,
 	IN OS_NDIS_MINIPORT_TIMER * pTimer,
 	IN TIMER_FUNCTION function,
 	IN PVOID data)
 {
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
-	if (!timer_pending(&pTimer->t)) {
-		timer_setup(&pTimer->t, legacy_timer_emu_func, 0);
-#else
- 	if (!timer_pending(pTimer)) {
+ 	if (!timer_pending(&pTimer->t)) {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
  		init_timer(pTimer);
-#endif
 		pTimer->data = (unsigned long)data;
 		pTimer->function = function;
+#else
+		timer_setup(&pTimer->t, function, 0);
+#endif
 	}
 }
 
