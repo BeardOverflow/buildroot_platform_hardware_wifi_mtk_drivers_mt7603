@@ -26,11 +26,7 @@
 
 #include <linux/ieee80211.h>
 
-#ifdef CFG_CFG80211_VERSION
-#define CFG80211_VERSION_CODE CFG_CFG80211_VERSION
-#else
 #define CFG80211_VERSION_CODE LINUX_VERSION_CODE
-#endif
 
 #if KERNEL_VERSION(4, 7, 0) <= CFG80211_VERSION_CODE
 /**
@@ -41,6 +37,7 @@
  * @NUM_NL80211_BANDS: number of bands, avoid using this in userspace
  *	 since newer kernel versions may support more bands
  */
+#define ieee80211_band nl80211_band
 #define KAL_BAND_2GHZ NL80211_BAND_2GHZ
 #define KAL_BAND_5GHZ NL80211_BAND_5GHZ
 #define KAL_NUM_BANDS NUM_NL80211_BANDS
