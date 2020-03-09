@@ -368,7 +368,7 @@ VOID CFG80211_UpdateBeacon(
 			pCfg80211_ctrl->beacon_tail_len = 0;
 			DBGPRINT(RT_DEBUG_ERROR, ("CFG80211 Beacon: MEM ALLOC ERROR\n"));
 		}
-		DBGPRINT(RT_DEBUG_ERROR, ("%s: %d isAllUpdate return!\n",__FUNCTION__, __LINE__)); 
+//		DBGPRINT(RT_DEBUG_ERROR, ("%s: %d isAllUpdate return!\n",__FUNCTION__, __LINE__));
 
 		return;  	
 	}
