@@ -15,7 +15,7 @@ PREALLOC=YES
 
 include $(RT28xx_DIR)/os/linux/config.mk
 
-ccflags-y += -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/arch/arm/include $(WFLAGS)
+ccflags-y += -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/arch/$(ARCH)/include $(WFLAGS)
 
 RTMP_SRC_DIR = $(RT28xx_DIR)/RT$(MODULE)
 
