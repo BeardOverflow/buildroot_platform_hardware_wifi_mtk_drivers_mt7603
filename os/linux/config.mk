@@ -2378,7 +2378,7 @@ export CFLAGS
 endif
 
 
-EXTRA_CFLAGS += -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/arch/arm/include $(WFLAGS)
+EXTRA_CFLAGS += -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/arch/$(ARCH)/include $(WFLAGS)
 export EXTRA_CFLAGS
 
 ifeq ($(PLATFORM),MT7620)
