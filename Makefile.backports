@@ -1,4 +1,4 @@
-RT28xx_DIR= <YOUR_PATH>
+RT28xx_DIR= $(src)
 
 RT28xx_MODE=STA
 
@@ -13,7 +13,7 @@ OSABL=NO
 PREALLOC=YES
 
 
-include $(RT28xx_DIR)/os/linux/config.mk
+include $(src)/os/linux/config.mk
 
 ccflags-y += -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/include -I$(RT28xx_DIR)/include -I$(LINUX_SRC)/arch/$(ARCH)/include $(WFLAGS)
 
