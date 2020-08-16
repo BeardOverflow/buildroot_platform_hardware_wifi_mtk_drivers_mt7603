@@ -2190,12 +2190,20 @@ static void CFG80211_OpsMgmtFrameRegister(
 #else
     struct net_device *dev,
 #endif /* LINUX_VERSION_CODE: 3.6.0 */	
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+    struct mgmt_frame_regs *upd)
+#else
     UINT16 frame_type, bool reg)
+#endif
 {
 	VOID *pAd;
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
 	struct net_device *dev = NULL;
 #endif /* LINUX_VERSION_CODE: 3.6.0 */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	UINT16 frame_type = BIT(upd->global_stypes << 4);
+	bool reg = false;
+#endif
 
 	void_MAC80211_PAD_GET(pAd, pWiphy);
 	
@@ -3353,10 +3361,12 @@ struct cfg80211_ops CFG80211_Ops = {
 	.set_cqm_rssi_config		= NULL,
 #endif /* LINUX_VERSION_CODE */
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	.update_mgmt_frame_registrations = CFG80211_OpsMgmtFrameRegister,
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37)) || defined(COMPAT_KERNEL_RELEASE)
 	/* notify driver that a management frame type was registered */
 	.mgmt_frame_register		= CFG80211_OpsMgmtFrameRegister,
-#endif /* LINUX_VERSION_CODE : 2.6.37 */
+#endif /* LINUX_VERSION_CODE : 5.8.0  */
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
 	/* set antenna configuration (tx_ant, rx_ant) on the device */
