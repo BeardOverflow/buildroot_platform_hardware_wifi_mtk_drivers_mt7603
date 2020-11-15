@@ -54,7 +54,8 @@ RTMP_SRC_DIR = $(RT28xx_DIR)/RT$(MODULE)
 #PLATFORM = MSTAR
 #PLATFORM = HISILICON
 #PLATFORM = HE_TV
-LINUX_SRC ?= /home/zy/桌面/kheader/usr/src/linux-headers-4.9.197-0409197-generic/
+KSRC ?= /usr/src/linux-headers-4.9.197-0409197-generic/
+LINUX_SRC = $(KSRC)
 CROSS_COMPILE ?=
 ARCH ?= x86_64
 #APSOC
