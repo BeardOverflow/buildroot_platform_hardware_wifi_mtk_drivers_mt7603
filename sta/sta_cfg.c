@@ -3655,7 +3655,8 @@ INT Set_UsbSuspend(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 		DBGPRINT(RT_DEBUG_ERROR, ("[%s] interface is down\n", __FUNCTION__));
 		return 0;
 	}
-#ifdef MT_WOW_SUPPORT
+//#ifdef MT_WOW_SUPPORT
+#if 0
 	RTMP_DRIVER_ADAPTER_RT28XX_WOW_ENABLE(pAd);
 #endif
 	RTMP_DRIVER_USB_SUSPEND(pAd, 0);
@@ -3674,7 +3675,8 @@ INT Set_UsbResume(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 	}
 
 	RTMP_DRIVER_USB_RESUME(pAd);
-#ifdef MT_WOW_SUPPORT
+//#ifdef MT_WOW_SUPPORT
+#if 0
 	RTMP_DRIVER_ADAPTER_RT28XX_WOW_DISABLE(pAd);
 #endif
 	return TRUE;
