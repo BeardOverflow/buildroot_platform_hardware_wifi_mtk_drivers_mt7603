@@ -2225,7 +2225,8 @@ static void CFG80211_OpsMgmtFrameRegister(
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
 int CFG80211_OpsSuspend(IN struct wiphy *wiphy,struct cfg80211_wowlan *wow)
 {
-#ifdef MT_WOW_SUPPORT
+//#ifdef MT_WOW_SUPPORT
+#if 0
 	VOID *pAd;
 	PRTMP_ADAPTER pAd_wow;
 #endif
@@ -2235,7 +2236,8 @@ int CFG80211_OpsSuspend(IN struct wiphy *wiphy,struct cfg80211_wowlan *wow)
 		CFG80211DBG(RT_DEBUG_OFF, ("cfg80211_wowlan is NULL!\n"));
 		return 0;
 		}
-#ifdef MT_WOW_SUPPORT
+//#ifdef MT_WOW_SUPPORT
+#if 0
 	CFG80211DBG(RT_DEBUG_TRACE, ("wowlan.any = %d , wowlan.disconnect = %d , wowlan.magic_pkt = %d , \nwowlan.gtk_rekey_failure = %d , wowlan.eap_identity_req = %d , wowlan.four_way_handshake = %d , \n wowlan.rfkill_release = %d \n",
 		wow->any,wow->disconnect,wow->magic_pkt,wow->gtk_rekey_failure,wow->eap_identity_req,wow->four_way_handshake,wow->rfkill_release));
 	MAC80211_PAD_GET(pAd, wiphy);
