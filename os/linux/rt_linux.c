@@ -1155,10 +1155,14 @@ static inline void __RtmpOSFSInfoChange(OS_FS_INFO * pOSFSInfo, BOOLEAN bSet)
 
 #endif
 #endif
+#ifdef set_fs
 		pOSFSInfo->fs = get_fs();
 		set_fs(KERNEL_DS);
+#endif
 	} else {
+#ifdef set_fs
 		set_fs(pOSFSInfo->fs);
+#endif
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,29)
 		current->fsuid = pOSFSInfo->fsuid;
 		current->fsgid = pOSFSInfo->fsgid;
@@ -2207,7 +2211,9 @@ VOID RtmpDrvAllMacPrint(
 {
 	struct file *file_w;
 	RTMP_STRING *fileName = "MacDump.txt";
+#ifdef set_fs
 	mm_segment_t orig_fs;
+#endif
 	RTMP_STRING *msg;
 	UINT32 macAddr = 0, macValue = 0;
 
@@ -2215,8 +2221,10 @@ VOID RtmpDrvAllMacPrint(
 	if (!msg)
 		return;
 
+#ifdef set_fs
 	orig_fs = get_fs();
 	set_fs(KERNEL_DS);
+#endif
 
 	/* open file */
 	file_w = filp_open(fileName, O_WRONLY | O_CREAT, 0);
@@ -2244,7 +2252,9 @@ VOID RtmpDrvAllMacPrint(
 		}
 		filp_close(file_w, NULL);
 	}
+#ifdef set_fs
 	set_fs(orig_fs);
+#endif
 	os_free_mem(NULL, msg);
 }
 
@@ -2257,7 +2267,9 @@ VOID RtmpDrvAllE2PPrint(
 {
 	struct file *file_w;
 	RTMP_STRING *fileName = "EEPROMDump.txt";
+#ifdef set_fs
 	mm_segment_t orig_fs;
+#endif
 	RTMP_STRING *msg;
 	USHORT eepAddr = 0;
 	USHORT eepValue;
@@ -2266,8 +2278,10 @@ VOID RtmpDrvAllE2PPrint(
 	if (!msg)
 		return;
 
+#ifdef set_fs
 	orig_fs = get_fs();
 	set_fs(KERNEL_DS);
+#endif
 
 	/* open file */
 	file_w = filp_open(fileName, O_WRONLY | O_CREAT, 0);
@@ -2296,7 +2310,9 @@ VOID RtmpDrvAllE2PPrint(
 		}
 		filp_close(file_w, NULL);
 	}
+#ifdef set_fs
 	set_fs(orig_fs);
+#endif
 	os_free_mem(NULL, msg);
 }
 
@@ -2308,10 +2324,12 @@ VOID RtmpDrvAllRFPrint(
 {
 	struct file *file_w;
 	RTMP_STRING *fileName = "RFDump.txt";
+#ifdef set_fs
 	mm_segment_t orig_fs;
 
 	orig_fs = get_fs();
 	set_fs(KERNEL_DS);
+#endif
 
 	/* open file */
 	file_w = filp_open(fileName, O_WRONLY | O_CREAT, 0);
@@ -2327,7 +2345,9 @@ VOID RtmpDrvAllRFPrint(
 		}
 		filp_close(file_w, NULL);
 	}
+#ifdef set_fs
 	set_fs(orig_fs);
+#endif
 }
 
 
