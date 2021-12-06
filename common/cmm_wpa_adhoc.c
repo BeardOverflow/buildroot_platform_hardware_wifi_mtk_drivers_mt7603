@@ -685,29 +685,29 @@ VOID Adhoc_PeerPairMsg1Action(
     
     if (Elem->MsgLen < (LENGTH_802_11 + LENGTH_802_1_H + LENGTH_EAPOL_H + MIN_LEN_OF_EAPOL_KEY_MSG)) return;
 	
-	pCurrentAddr = pAd->CurrentAddress;
-	pmk_ptr = pAd->StaCfg.PMK;
-	group_cipher = (UCHAR)pAd->StaCfg.GroupCipher;
-	rsnie_ptr = pAd->StaCfg.RSN_IE;
-	rsnie_len = pAd->StaCfg.RSNIE_Len;
+    pCurrentAddr = pAd->CurrentAddress;
+    pmk_ptr = pAd->StaCfg.PMK;
+    group_cipher = (UCHAR)pAd->StaCfg.GroupCipher;
+    rsnie_ptr = pAd->StaCfg.RSN_IE;
+    rsnie_len = pAd->StaCfg.RSNIE_Len;
 
-	/* Store the received frame */
-	pMsg1 = (PEAPOL_PACKET) &Elem->Msg[LENGTH_802_11 + LENGTH_802_1_H];
-	MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
+    /* Store the received frame */
+    pMsg1 = (PEAPOL_PACKET) &Elem->Msg[LENGTH_802_11 + LENGTH_802_1_H];
+    MsgLen = Elem->MsgLen - LENGTH_802_11 - LENGTH_802_1_H;
 	
-	/* Sanity Check peer Pairwise message 1 - Replay Counter */
-	if (Adhoc_PeerWpaMessageSanity(pAd, pMsg1, MsgLen, EAPOL_PAIR_MSG_1, pSupplicant, pEntry) == FALSE)
-		return;
+    /* Sanity Check peer Pairwise message 1 - Replay Counter */
+    if (Adhoc_PeerWpaMessageSanity(pAd, pMsg1, MsgLen, EAPOL_PAIR_MSG_1, pSupplicant, pEntry) == FALSE)
+        return;
 
     
-	/* Store Replay counter, it will use to verify message 3 and construct message 2 */
-	NdisMoveMemory(pSupplicant->ReplayCounter, pMsg1->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);		
+    /* Store Replay counter, it will use to verify message 3 and construct message 2 */
+    NdisMoveMemory(pSupplicant->ReplayCounter, pMsg1->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);		
         
-	/* Store ANonce */
-	NdisMoveMemory(pSupplicant->ANonce, pMsg1->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
+    /* Store ANonce */
+    NdisMoveMemory(pSupplicant->ANonce, pMsg1->KeyDesc.KeyNonce, LEN_KEY_DESC_NONCE);
 		
-	/* Generate random SNonce */
-	GenRandom(pAd, (UCHAR *)pCurrentAddr, pSupplicant->SNonce);
+    /* Generate random SNonce */
+    GenRandom(pAd, (UCHAR *)pCurrentAddr, pSupplicant->SNonce);
 
     /* Calculate PTK(ANonce, SNonce) */
     WpaDerivePTK(pAd,
@@ -719,26 +719,25 @@ VOID Adhoc_PeerPairMsg1Action(
 			    PTK, 
 			    LEN_PTK);
 
-	/* Save key to PTK entry */
-	NdisMoveMemory(pSupplicant->PTK, PTK, LEN_PTK);
-		
-	/* Update WpaState */
-	pSupplicant->WpaState = AS_PTKINIT_NEGOTIATING;
+    /* Save key to PTK entry */
+    NdisMoveMemory(pSupplicant->PTK, PTK, LEN_PTK);
+	
+    /* Update WpaState */
+    pSupplicant->WpaState = AS_PTKINIT_NEGOTIATING;
 
-	/* Allocate memory for output */
-	os_alloc_mem(NULL, (PUCHAR *)&mpool, TX_EAPOL_BUFFER);
-	if (mpool == NULL)
-    {
+    /* Allocate memory for output */
+    os_alloc_mem(NULL, (PUCHAR *)&mpool, TX_EAPOL_BUFFER);
+    if (mpool == NULL) {
         DBGPRINT(RT_DEBUG_ERROR, ("!!!%s : no memory!!!\n", __FUNCTION__));
         return;
     }
 
-	pEapolFrame = (PEAPOL_PACKET)mpool;
-	NdisZeroMemory(pEapolFrame, TX_EAPOL_BUFFER);
+    pEapolFrame = (PEAPOL_PACKET)mpool;
+    NdisZeroMemory(pEapolFrame, TX_EAPOL_BUFFER);
 
-	/* Construct EAPoL message - Pairwise Msg 2 */
-	/*  EAPOL-Key(0,1,0,0,P,0,0,SNonce,MIC,DataKD_M2) */
-	Adhoc_ConstructEapolMsg(pEntry,
+    /* Construct EAPoL message - Pairwise Msg 2 */
+    /*  EAPOL-Key(0,1,0,0,P,0,0,SNonce,MIC,DataKD_M2) */
+    Adhoc_ConstructEapolMsg(pEntry,
 					  group_cipher,
 					  EAPOL_PAIR_MSG_2,  
 					  0,				/* DefaultKeyIdx */
@@ -750,18 +749,18 @@ VOID Adhoc_PeerPairMsg1Action(
 					  pSupplicant,
 					  pEapolFrame);
 
-	/* Make outgoing frame */
-	MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pCurrentAddr, EAPOL);	
+    /* Make outgoing frame */
+    MAKE_802_3_HEADER(Header802_3, pEntry->Addr, pCurrentAddr, EAPOL);	
 
-	tr_entry = &pAd->MacTab.tr_entry[pEntry->wcid];
-	RTMPToWirelessSta(pAd, pEntry, 
+    tr_entry = &pAd->MacTab.tr_entry[pEntry->wcid];
+    RTMPToWirelessSta(pAd, pEntry, 
 					  Header802_3, sizeof(Header802_3), (PUCHAR)pEapolFrame, 
    					  CONV_ARRARY_TO_UINT16(pEapolFrame->Body_Len) + 4, 
    					  (tr_entry->PortSecured == WPA_802_1X_PORT_SECURED) ? FALSE : TRUE);
 
-	os_free_mem(NULL, mpool);
+    os_free_mem(NULL, mpool);
 		
-	DBGPRINT(RT_DEBUG_TRACE, ("<=== PeerPairMsg1Action: send Msg2 of 4-way \n"));
+    DBGPRINT(RT_DEBUG_TRACE, ("<=== PeerPairMsg1Action: send Msg2 of 4-way \n"));
 }
 
 
@@ -809,13 +808,13 @@ VOID Adhoc_PeerPairMsg2Action(
     /* check Entry in valid State */
     if (pAuthenticator->WpaState < AS_PTKSTART) return;
 
-	pBssid = pAd->CommonCfg.Bssid;
+    pBssid = pAd->CommonCfg.Bssid;
 
-	pmk_ptr = pAd->StaCfg.PMK;
-	gtk_ptr = pAd->StaCfg.GTK;
-	group_cipher = (UCHAR)pAd->StaCfg.GroupCipher;
+    pmk_ptr = pAd->StaCfg.PMK;
+    gtk_ptr = pAd->StaCfg.GTK;
+    group_cipher = (UCHAR)pAd->StaCfg.GroupCipher;
 
-	default_key = pAd->StaCfg.wdev.DefaultKeyId;
+    default_key = pAd->StaCfg.wdev.DefaultKeyId;
     if (pAd->StaCfg.wdev.AuthMode == Ndis802_11AuthModeWPA2PSK)
     {
         rsnie_len = pAd->StaCfg.RSNIE_Len;

@@ -2349,8 +2349,8 @@ VOID WPAStart2WayGroupHS(
 
     if ((!pEntry) || !IS_ENTRY_CLIENT(pEntry)) return;
 
-	/* delete retry timer*/
-	RTMPCancelTimer(&pEntry->RetryTimer, &Cancelled);
+    /* delete retry timer*/
+    RTMPCancelTimer(&pEntry->RetryTimer, &Cancelled);
 	
 #ifdef CONFIG_AP_SUPPORT
 #ifdef P2P_SUPPORT

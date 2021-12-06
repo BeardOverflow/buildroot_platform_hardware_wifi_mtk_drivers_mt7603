@@ -1285,7 +1285,7 @@ INT Set_EncrypType_Proc(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 #endif /* WAPI_SUPPORT */
     else return FALSE;
 
-	if (pAd->StaCfg.BssType == BSS_ADHOC)
+    if (pAd->StaCfg.BssType == BSS_ADHOC)
 	{
 		/* Build all corresponding channel information */
 		RTMPSetPhyMode(pAd, pAd->CommonCfg.cfg_wmode);
@@ -1432,7 +1432,7 @@ INT Set_Key1_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
-	KeyLen = (UCHAR)strlen(arg);
+    KeyLen = (UCHAR)strlen(arg);
 
     switch (KeyLen)
     {
@@ -1511,7 +1511,7 @@ INT Set_Key2_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
-	KeyLen = (UCHAR)strlen(arg);
+    KeyLen = (UCHAR)strlen(arg);
 
     switch (KeyLen)
     {
@@ -1588,7 +1588,7 @@ INT Set_Key3_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
-	KeyLen = (UCHAR)strlen(arg);
+    KeyLen = (UCHAR)strlen(arg);
 
     switch (KeyLen)
     {
@@ -1665,7 +1665,7 @@ INT Set_Key4_Proc(RTMP_ADAPTER *pAdapter, RTMP_STRING *arg)
 
     if (pAdapter->StaCfg.wdev.AuthMode >= Ndis802_11AuthModeWPA) return TRUE;    /* do nothing */
 
-	KeyLen = (UCHAR)strlen(arg);
+    KeyLen = (UCHAR)strlen(arg);
 
     switch (KeyLen)
     {
@@ -10354,7 +10354,7 @@ RtmpIoctl_rt_ioctl_siwfreq(
     }
     else return NDIS_STATUS_FAILURE;
 
-	return NDIS_STATUS_SUCCESS;
+    return NDIS_STATUS_SUCCESS;
 }
 
 
@@ -12281,9 +12281,9 @@ RtmpIoctl_rt_ioctl_giwrate(RTMP_ADAPTER *pAd, VOID *pData, ULONG Data)
 
     if (rate_index >= rate_count) rate_index = rate_count-1;
 
-	*(ULONG *)pData = ralinkrate[rate_index] * 500000;
+    *(ULONG *)pData = ralinkrate[rate_index] * 500000;
 
-	return NDIS_STATUS_SUCCESS;
+    return NDIS_STATUS_SUCCESS;
 }
 
 

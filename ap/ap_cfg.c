@@ -1805,7 +1805,7 @@ INT RTMPAPSetInformation(
 
 			if (!apcliEn) return FALSE;
 
-				os_alloc_mem(NULL, (UCHAR **)&pRemoveKey, wrq->u.data.length);
+			os_alloc_mem(NULL, (UCHAR **)&pRemoveKey, wrq->u.data.length);
 	            if(pRemoveKey == NULL)
 	            {
 	                Status = -ENOMEM;
