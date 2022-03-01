@@ -3591,6 +3591,9 @@ static struct wireless_dev *CFG80211_WdevAlloc(
 	pWdev->wiphy->n_iface_combinations = ARRAY_SIZE(ra_iface_combinations_ap_sta);
 #endif /* LINUX_VERSION_CODE: 3.8.0 */
 
+	/* @WIPHY_FLAG_NETNS_OK: if not set, do not allow changing the netns of this wiphy at all */
+        pWdev->wiphy->flags |=WIPHY_FLAG_NETNS_OK;
+
 	if (wiphy_register(pWdev->wiphy) < 0)
 	{
 		DBGPRINT(RT_DEBUG_ERROR, ("80211> Register wiphy device fail!\n"));
