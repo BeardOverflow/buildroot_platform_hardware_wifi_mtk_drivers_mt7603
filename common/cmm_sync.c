@@ -55,7 +55,7 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 	PUCHAR pChannelList = NULL;
 	PUCHAR pChannelListFlag = NULL;
 #ifdef CFG80211_BUILD_CHANNEL_LIST
-        PCH_DESC pChDesc2G = NULL, pChDesc5G = NULL;
+        PCH_DESC pChDesc2G = NULL;
 #endif /* CFG80211_BUILD_CHANNEL_LIST */
 
 
@@ -144,132 +144,11 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 		num = 0;
 	}
 
-	if (WMODE_CAP_5G(pAd->CommonCfg.PhyMode))
-	{
-		for (i = 0; i < Country_Region_GroupNum_5GHZ; i++)
-		{
-			if ((pAd->CommonCfg.CountryRegionForABand & 0x7f) ==
-				Country_Region_ChDesc_5GHZ[i].RegionIndex)
-			{
-				pChDesc = Country_Region_ChDesc_5GHZ[i].pChDesc;
-				num = TotalChNum(pChDesc);
-				bRegionFound = TRUE;
-#ifdef CFG80211_BUILD_CHANNEL_LIST
-                                pChDesc5G = pChDesc;
-#endif /* CFG80211_BUILD_CHANNEL_LIST */
-
-				break;
-			}
-		}
-
-		if (!bRegionFound)
-		{
-			DBGPRINT(RT_DEBUG_ERROR,("CountryRegionABand=%d not support", pAd->CommonCfg.CountryRegionForABand));
-			return;
-		}
-
-		if (num > 0)
-		{
-			UCHAR RadarCh[15]={52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140};
-#ifdef CONFIG_AP_SUPPORT
-			UCHAR q=0;
-#endif /* CONFIG_AP_SUPPORT */
-			os_alloc_mem(NULL, (UCHAR **)&pChannelList, num * sizeof(UCHAR));
-
-			if (!pChannelList)
-			{
-				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelList failed\n", __FUNCTION__));
-				return;
-			}
-
-			os_alloc_mem(NULL, (UCHAR **)&pChannelListFlag, num * sizeof(UCHAR));
-
-			if (!pChannelListFlag)
-			{
-				DBGPRINT(RT_DEBUG_ERROR,("%s:Allocate memory for ChannelListFlag failed\n", __FUNCTION__));
-				os_free_mem(NULL, pChannelList);
-				return;
-			}
-
-			for (i = 0; i < num; i++)
-			{
-				pChannelList[i] = GetChannel_5GHZ(pChDesc, i);
-				pChannelListFlag[i] = GetChannelFlag(pChDesc, i);
-			}
-
-#ifdef CONFIG_AP_SUPPORT
-			for (i = 0; i < num; i++)
-			{
-				if((pAd->CommonCfg.bIEEE80211H == 0)|| ((pAd->CommonCfg.bIEEE80211H == 1) && (pAd->CommonCfg.RDDurRegion != FCC)))
-				{
-					pChannelList[q] = GetChannel_5GHZ(pChDesc, i);
-					pChannelListFlag[q] = GetChannelFlag(pChDesc, i);
-					q++;
-				}
-				/*Based on the requiremnt of FCC, some channles could not be used anymore when test DFS function.*/
-				else if ((pAd->CommonCfg.bIEEE80211H == 1) &&
-						(pAd->CommonCfg.RDDurRegion == FCC) &&
-						(pAd->Dot11_H.bDFSIndoor == 1))
-				{
-					if((GetChannel_5GHZ(pChDesc, i) < 116) || (GetChannel_5GHZ(pChDesc, i) > 128))
-					{
-						pChannelList[q] = GetChannel_5GHZ(pChDesc, i);
-						pChannelListFlag[q] = GetChannelFlag(pChDesc, i);
-						q++;
-					}
-				}
-				else if ((pAd->CommonCfg.bIEEE80211H == 1) &&
-						(pAd->CommonCfg.RDDurRegion == FCC) &&
-						(pAd->Dot11_H.bDFSIndoor == 0))
-				{
-					if((GetChannel_5GHZ(pChDesc, i) < 100) || (GetChannel_5GHZ(pChDesc, i) > 140) )
-					{
-						pChannelList[q] = GetChannel_5GHZ(pChDesc, i);
-						pChannelListFlag[q] = GetChannelFlag(pChDesc, i);
-						q++;
-					}
-				}
-
-			}
-			num = q;
-#endif /* CONFIG_AP_SUPPORT */
-
-			for (i=0; i<num; i++)
-			{
-				for (j=0; j<MAX_NUM_OF_CHANNELS; j++)
-				{
-					if (pChannelList[i] == pAd->TxPower[j].Channel)
-						NdisMoveMemory(&pAd->ChannelList[index+i], &pAd->TxPower[j], sizeof(CHANNEL_TX_POWER));
-						pAd->ChannelList[index + i].Flags = pChannelListFlag[i];
-					// TODO: shiang-7603, NdisMoveMemory may replace the pAd->ChannelList[index+i].Channel as other values!
-					pAd->ChannelList[index+i].Channel = pChannelList[i];
-				}
-
-#ifdef DOT11_N_SUPPORT
-				if (N_ChannelGroupCheck(pAd, pAd->ChannelList[index + i].Channel))
-					pAd->ChannelList[index + i].Flags |= CHANNEL_40M_CAP;
-#ifdef DOT11_VHT_AC
-				if (vht80_channel_group(pAd, pAd->ChannelList[index + i].Channel))
-					pAd->ChannelList[index + i].Flags |= CHANNEL_80M_CAP;
-#endif /* DOT11_VHT_AC */
-#endif /* DOT11_N_SUPPORT */
-
-				for (j=0; j<15; j++)
-				{
-					if (pChannelList[i] == RadarCh[j])
-						pAd->ChannelList[index+i].DfsReq = TRUE;
-				}
-				pAd->ChannelList[index+i].MaxTxPwr = 20;
-			}
-			index += num;
-
-			os_free_mem(NULL, pChannelList);
-			os_free_mem(NULL, pChannelListFlag);
-		}
-	}
+	DBGPRINT(RT_DEBUG_ERROR, ("%s(): if (WMODE_CAP_5G(pAd->CommonCfg.PhyMode)) drop it \n",
+				__FUNCTION__));
 
 	pAd->ChannelListNum = (UCHAR)index;
-	DBGPRINT(RT_DEBUG_TRACE,("CountryCode(2.4G/5G)=%d/%d, RFIC=%d, PHY mode=%d, support %d channels\n",
+	DBGPRINT(RT_DEBUG_ERROR,("CountryCode(2.4G/5G)=%d/%d, RFIC=%d, PHY mode=%d, support %d channels\n",
 		pAd->CommonCfg.CountryRegion, pAd->CommonCfg.CountryRegionForABand, pAd->RfIcType, pAd->CommonCfg.PhyMode, pAd->ChannelListNum));
 
 #ifdef RT_CFG80211_SUPPORT
@@ -286,22 +165,24 @@ VOID BuildChannelList(RTMP_ADAPTER *pAd)
 
 #ifdef CFG80211_BUILD_CHANNEL_LIST
 
+/*
    if (CFG80211OS_UpdateRegRuleByRegionIdx(
                     pAd->pCfg80211_CB,
                     pChDesc2G,
                     pChDesc5G
                     ) != 0)
     {
+*/
         DBGPRINT(RT_DEBUG_ERROR,("Update RegRule failed!\n"));
-    }
+	DBGPRINT(RT_DEBUG_ERROR, ("CFG80211OS_UpdateRegRuleByRegionIdx: Stuck HERE --> will skip \n"));
 #endif /* CFG80211_BUILD_CHANNEL_LIST */
 #endif /* RT_CFG80211_SUPPORT */
 
 #ifdef DBG
-	DBGPRINT(RT_DEBUG_TRACE, ("SupportedChannelList:\n"));
+	DBGPRINT(RT_DEBUG_ERROR, ("SupportedChannelList:\n"));
 	for (i=0; i<pAd->ChannelListNum; i++)
 	{
-		DBGPRINT_RAW(RT_DEBUG_TRACE,("\tChannel # %d: Pwr0/1 = %d/%d, Flags = %x\n ",
+		DBGPRINT_RAW(RT_DEBUG_ERROR,("\tChannel # %d: Pwr0/1 = %d/%d, Flags = %x\n ",
 									 pAd->ChannelList[i].Channel,
 									 pAd->ChannelList[i].Power,
 									 pAd->ChannelList[i].Power2,

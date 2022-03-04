@@ -2600,7 +2600,7 @@ VOID RTMPSetPhyMode(RTMP_ADAPTER *pAd, ULONG phymode)
 
 	pAd->CommonCfg.PhyMode = (UCHAR)phymode;
 
-	DBGPRINT(RT_DEBUG_TRACE,("%s(): PhyMode=%d, channel=%d \n",
+	DBGPRINT(RT_DEBUG_ERROR,("%s(): PhyMode=%d, channel=%d \n",
 				__FUNCTION__, pAd->CommonCfg.PhyMode,
 				pAd->CommonCfg.Channel));
 
@@ -2615,6 +2615,8 @@ VOID RTMPSetPhyMode(RTMP_ADAPTER *pAd, ULONG phymode)
 #endif /* P2P_CHANNEL_LIST_SEPARATE */ 
 
 
+	DBGPRINT(RT_DEBUG_ERROR, ("%s(): ch=%d  \n",
+				__FUNCTION__, pAd->CommonCfg.Channel));
 	/* sanity check user setting*/
 	for (i = 0; i < pAd->ChannelListNum; i++)
 	{
@@ -2622,6 +2624,8 @@ VOID RTMPSetPhyMode(RTMP_ADAPTER *pAd, ULONG phymode)
 			break;
 	}
 
+	DBGPRINT(RT_DEBUG_ERROR, ("%s(): i=%d  pAd->ChannelListNum=%d \n",
+				__FUNCTION__, i, pAd->ChannelListNum));
 	if (i == pAd->ChannelListNum)
 	{
 #ifdef CONFIG_AP_SUPPORT
