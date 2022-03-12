@@ -729,7 +729,7 @@ INT32 SetATELoadE2p(RTMP_ADAPTER *pAd, RTMP_STRING *Arg)
 	if (Value > 0)
 	{
 		/* zero the e2p buffer */
-		NdisZeroMemory((PUCHAR)WriteEEPROM, EEPROM_SIZE);
+		//NdisZeroMemory((PUCHAR)WriteEEPROM, EEPROM_SIZE);
 
 		RtmpOSFSInfoChange(&OsFSInfo, TRUE);
 

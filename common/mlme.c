@@ -26,7 +26,6 @@
 */
 
 #include "rt_config.h"
-#include <stdarg.h>
 #ifdef DOT11R_FT_SUPPORT
 #include "ft.h"
 #endif /* DOT11R_FT_SUPPORT */
