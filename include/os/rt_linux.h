@@ -450,8 +450,8 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
 
 #define OS_IRQ_LOCK(__lock, __irqflags)			\
 {													\
-    if (__irqflags);                            \
-	__irqflags = 0;									\
+    if (__irqflags) {                            \
+	__irqflags = 0; }									\
 	spin_lock_irqsave((spinlock_t *)(__lock), __irqflags);			\
 }
 
@@ -462,8 +462,8 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
 #else
 #define OS_IRQ_LOCK(__lock, __irqflags)			\
 {												\
-    if (__irqflags);                            \
-	__irqflags = 0;								\
+    if (__irqflags) {                            \
+	__irqflags = 0;	}							\
 	spin_lock_bh((spinlock_t *)(__lock));		\
 }
 

@@ -3742,9 +3742,9 @@ NDIS_STATUS	RTMPSetProfileParameters(
 		{				
 		    if(simple_strtol(tmpbuf, 0, 10) != 0)
 				pAd->CommonCfg.bWiFiTest= simple_strtol(tmpbuf, 0, 10);
-			else
+			else {
 				pAd->CommonCfg.bWiFiTest = 0;	/* disable*/
-
+			}
 				DBGPRINT(RT_DEBUG_TRACE, ("WiFiTest=%d\n", pAd->CommonCfg.bWiFiTest));
 		}
 #endif /* RELEASE_EXCLUDE */
@@ -4562,8 +4562,9 @@ NDIS_STATUS	RTMPSetProfileParameters(
 					{				
 						if(simple_strtol(tmpbuf, 0, 10) == 0)
 							pAd->StaCfg.bTGnWifiTest = FALSE;
-						else
+						else {
 							pAd->StaCfg.bTGnWifiTest = TRUE;
+						}
 							DBGPRINT(RT_DEBUG_TRACE, ("TGnWifiTest=%d\n", pAd->StaCfg.bTGnWifiTest));
 					}
 #ifdef ETH_CONVERT_SUPPORT
