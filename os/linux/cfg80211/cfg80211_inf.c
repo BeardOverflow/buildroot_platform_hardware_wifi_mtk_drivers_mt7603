@@ -74,10 +74,10 @@ BOOLEAN CFG80211DRV_OpsChgVirtualInf(RTMP_ADAPTER *pAd, VOID *pData)
 	{
 		case RT_CMD_80211_IFTYPE_MONITOR:
 			DBGPRINT(RT_DEBUG_TRACE, ("CFG80211 I/F Monitor Type\n"));
-			//RTMP_OS_NETDEV_SET_TYPE_MONITOR(new_dev_p);	
+			RTMP_OS_NETDEV_SET_TYPE_MONITOR(new_dev_p);	
 			break;
 
-			case RT_CMD_80211_IFTYPE_STATION:
+		case RT_CMD_80211_IFTYPE_STATION:
 
 			RTMP_CFG80211_RemoveVifEntry(pAd,cfg80211_ctrl->dummy_p2p_net_dev);
 			RTMP_CFG80211_AddVifEntry(pAd, cfg80211_ctrl->dummy_p2p_net_dev, newType);
@@ -835,7 +835,7 @@ VOID RTMP_CFG80211_VirtualIF_Init(
 #ifdef CONFIG_STA_SUPPORT	
 		case RT_CMD_80211_IFTYPE_MONITOR:
 			DBGPRINT(RT_DEBUG_TRACE, ("CFG80211 I/F Monitor Type\n"));
-			//RTMP_OS_NETDEV_SET_TYPE_MONITOR(new_dev_p);	
+			RTMP_OS_NETDEV_SET_TYPE_MONITOR(new_dev_p);	
 			break;
 
 		case RT_CMD_80211_IFTYPE_P2P_CLIENT:

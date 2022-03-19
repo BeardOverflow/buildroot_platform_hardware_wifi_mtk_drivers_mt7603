@@ -791,11 +791,12 @@ BOOLEAN CFG80211DRV_OpsSetChannel(RTMP_ADAPTER *pAd, VOID *pData)
 
 		Set_SSID_Proc(pAd, (RTMP_STRING *)pAd->CommonCfg.Ssid);
 	} 
-#if 0
+#if 1
 	if (IfType == RT_CMD_80211_IFTYPE_MONITOR)
 	{
 		/* reset monitor mode in the new channel */
 		Set_NetworkType_Proc(pAd, "Monitor");
+#define RX_FILTR_CFG	0x1400
 		RTMP_IO_WRITE32(pAd, RX_FILTR_CFG, pChan->MonFilterFlag);
 	} 
 #endif 

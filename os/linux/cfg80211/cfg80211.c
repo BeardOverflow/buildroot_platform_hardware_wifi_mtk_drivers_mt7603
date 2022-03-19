@@ -3486,6 +3486,7 @@ static struct wireless_dev *CFG80211_WdevAlloc(
 #endif
 
 	pWdev->wiphy->interface_modes = BIT(NL80211_IFTYPE_AP) | BIT(NL80211_IFTYPE_STATION);
+	pWdev->wiphy->interface_modes |= BIT(NL80211_IFTYPE_MONITOR);
 
 #ifdef CONFIG_STA_SUPPORT
 	pWdev->wiphy->interface_modes |= BIT(NL80211_IFTYPE_ADHOC);
