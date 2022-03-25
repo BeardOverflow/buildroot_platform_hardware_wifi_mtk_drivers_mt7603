@@ -165,15 +165,16 @@ static inline VOID __RTMP_OS_Init_Timer(
 	IN TIMER_FUNCTION function,
 	IN PVOID data)
 {
- 	if (!timer_pending(&pTimer->t)) {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
+	if (!timer_pending(pTimer)) {
  		init_timer(pTimer);
 		pTimer->data = (unsigned long)data;
 		pTimer->function = function;
+	}
 #else
+	if (!timer_pending(&pTimer->t))
 		timer_setup(&pTimer->t, function, 0);
 #endif
-	}
 }
 
 static inline VOID __RTMP_OS_Add_Timer(
