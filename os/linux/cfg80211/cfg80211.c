@@ -2311,6 +2311,9 @@ static int CFG80211_OpsTdlsMgmt
 #else
     IN u8 *peer,
 #endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+    IN int channel,
+#endif
     IN u8 action_code, 
     IN u8 dialog_token,
     IN u16 status_code,
@@ -2328,6 +2331,9 @@ static int CFG80211_OpsTdlsMgmt
 	VOID *pAd;
 	MAC80211_PAD_GET(pAd, pWiphy);
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	CFG80211DBG(RT_DEBUG_WARN, ("80211> TDLS channel: %d\n", channel));
+#endif
 	CFG80211DBG(RT_DEBUG_WARN, ("80211> extra_ies_len : %zd ==>\n", extra_ies_len));
 
 	switch (action_code) {
@@ -2844,12 +2850,20 @@ static int CFG80211_OpsStartAp(
 static int CFG80211_OpsChangeBeacon(
 	struct wiphy *pWiphy,
 	struct net_device *netdev,
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	struct cfg80211_ap_update *params)
+#else
 	struct cfg80211_beacon_data *info)
+#endif
 {
 	VOID *pAd;
 	CMD_RTPRIV_IOCTL_80211_BEACON bcn;
 	UCHAR *beacon_head_buf = NULL;
 	UCHAR *beacon_tail_buf = NULL;
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	struct cfg80211_beacon_data *info = &params->beacon;
+#endif
     
     MAC80211_PAD_GET(pAd, pWiphy);	
     CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
