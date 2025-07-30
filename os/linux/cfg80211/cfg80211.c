@@ -2311,6 +2311,9 @@ static int CFG80211_OpsTdlsMgmt
 #else
     IN u8 *peer,
 #endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 5, 0))
+    IN int link_id,
+#endif
     IN u8 action_code, 
     IN u8 dialog_token,
     IN u16 status_code,
@@ -2328,6 +2331,9 @@ static int CFG80211_OpsTdlsMgmt
 	VOID *pAd;
 	MAC80211_PAD_GET(pAd, pWiphy);
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 5, 0))
+	CFG80211DBG(RT_DEBUG_WARN, ("80211> link_id: %d\n", link_id));
+#endif
 	CFG80211DBG(RT_DEBUG_WARN, ("80211> extra_ies_len : %zd ==>\n", extra_ies_len));
 
 	switch (action_code) {
