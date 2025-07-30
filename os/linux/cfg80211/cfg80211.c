@@ -2850,12 +2850,20 @@ static int CFG80211_OpsStartAp(
 static int CFG80211_OpsChangeBeacon(
 	struct wiphy *pWiphy,
 	struct net_device *netdev,
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 7, 0))
+	struct cfg80211_ap_update *params)
+#else
 	struct cfg80211_beacon_data *info)
+#endif
 {
 	VOID *pAd;
 	CMD_RTPRIV_IOCTL_80211_BEACON bcn;
 	UCHAR *beacon_head_buf = NULL;
 	UCHAR *beacon_tail_buf = NULL;
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 7, 0))
+	struct cfg80211_beacon_data *info = &params->beacon;
+#endif
     
     MAC80211_PAD_GET(pAd, pWiphy);	
     CFG80211DBG(RT_DEBUG_TRACE, ("80211> %s ==>\n", __FUNCTION__));
